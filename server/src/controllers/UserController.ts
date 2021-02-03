@@ -64,7 +64,8 @@ export const update = async (
   next: NextFunction
 ) => {
   try {
-    const { firstName, lastName, email, phone, id } = req.body;
+    const { id } = req.params;
+    const { firstName, lastName, email, phone } = req.body;
     const result = await iContactsServiceLibrary.update(id, {
       firstName,
       lastName,

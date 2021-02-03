@@ -5,7 +5,7 @@ const contactsRouter: Router = Router();
 
 contactsRouter.post('/add', UserController.add);
 contactsRouter.delete('/:id', UserController.remove);
-contactsRouter.patch('/', UserController.update);
+contactsRouter.patch('/:id', UserController.update);
 contactsRouter.get('/:id', UserController.get);
 contactsRouter.get('/', UserController.getAll);
 

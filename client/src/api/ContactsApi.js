@@ -42,7 +42,7 @@ export const updateContact = async (
   contact: Contact
 ): Promise<[Contact | null, string | null]> => {
   return contactApi
-    .patch('/contacts', contact)
+    .patch(`/contacts/${contact.id}`, contact)
     .then((response) => [response.data, null])
     .catch((err) => [null, err.response.data.message]);
 };
