@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client": "npm run start --prefix client",
-    "server": "npm run start --prefix server",
+    "client": "npm install --prefix client && npm run start --prefix client",
+    "server": "npm install --prefix server &&npm run start --prefix server",
     "start": "docker-compose up -d && concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
