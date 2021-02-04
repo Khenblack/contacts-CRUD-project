@@ -14,6 +14,10 @@ beforeEach(() => {
   );
 });
 
+afterEach(() => {
+  wrapped.unmount();
+});
+
 it('show field on dom', () => {
   expect(wrapped.find('div.field').length).toEqual(1);
 });
