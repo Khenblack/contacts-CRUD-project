@@ -2,12 +2,12 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { shallow, mount } from 'enzyme';
 
-import App from '../../App';
-import Menu from '../Menu';
-import ContactEdit from '../../views/ContactEdit';
-import ContactCreate from '../../views/ContactCreate';
-import ContactList from '../../views/ContactList';
-import ContactContext from '../../context/ContactContext';
+import App from '../App';
+import Menu from '../components/Menu';
+import ContactEdit from '../views/ContactEdit';
+import ContactCreate from '../views/ContactCreate';
+import ContactList from '../views/ContactList';
+import ContactContext from '../context/ContactContext';
 
 const mockedContextValue = {
   contacts: [{ id: 1 }],
