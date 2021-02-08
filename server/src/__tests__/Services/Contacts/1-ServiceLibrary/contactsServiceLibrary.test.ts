@@ -1,8 +1,8 @@
 import 'reflect-metadata';
-import Contact from '../../../../entities/Contact';
-import { IContactsDomainServices } from '../../2-Domain/Contracts';
-import { ContactsServiceLibrary } from '../Implementations';
-import CustomError from '../../../../../models/CustomError';
+import Contact from '../../../../domain/entities/Contact';
+import { IContactsDomainServices } from '../../../../domain/services/Contacts/2-Domain/Contracts';
+import { ContactsServiceLibrary } from '../../../../domain/services/Contacts/1-ServiceLibrary/Implementations';
+import CustomError from '../../../../models/CustomError';
 
 let IContactsDomainServicesMock;
 let userMock;
