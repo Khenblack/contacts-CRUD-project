@@ -2,10 +2,8 @@ import 'reflect-metadata';
 import Contact from '../../../../entities/Contact';
 import { IContactsDomainServices } from '../../2-Domain/Contracts';
 import { ContactsServiceLibrary } from '../Implementations';
-import { Container } from 'inversify';
 import CustomError from '../../../../../models/CustomError';
 
-let container;
 const userMock = new Contact({
   id: '1',
   email: 'test@email.com',
@@ -22,14 +20,6 @@ const Mock = jest.fn<IContactsDomainServices, []>(() => ({
   delete: jest.fn().mockReturnValue(Promise.resolve(userMock))
 }));
 const mock = new Mock();
-
-beforeEach(() => {
-  container = new Container();
-});
-
-afterEach(() => {
-  container = null;
-});
 
 describe('ContactServiceLibrary test', () => {
   it('Should call get method from domain services', async () => {
