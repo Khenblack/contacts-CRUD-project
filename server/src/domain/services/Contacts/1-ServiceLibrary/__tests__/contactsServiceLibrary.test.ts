@@ -29,7 +29,7 @@ describe('ContactServiceLibrary test', () => {
     expect(result).toEqual(userMock);
   });
 
-  it('Should throw an error if call get method with an null userID', async () => {
+  it('Should throw an error if call get method withoud userID', async () => {
     const contactServiceLibrary = new ContactsServiceLibrary(mock);
     try {
       await contactServiceLibrary.get(null);
