@@ -79,4 +79,31 @@ describe('ContactServiceLibrary test', () => {
       expect(error.message).toEqual('User id param is required');
     }
   });
+
+  it('Should throw an error if call delete method without an UserID', async () => {
+    const contactServiceLibrary = new ContactsServiceLibrary(
+      IContactsDomainServicesMock
+    );
+    try {
+      await contactServiceLibrary.delete(null);
+    } catch (error) {
+      expect(error).toBeInstanceOf(CustomError);
+      expect(error.statusCode).toEqual(422);
+      expect(error.message).toEqual('User id param is required');
+    }
+  });
+
+  it('Should call create method from domain services', async () => {
+    const contactServiceLibrary = new ContactsServiceLibrary(
+      IContactsDomainServicesMock
+    );
+
+    await contactServiceLibrary.create({
+      firstName: 'name',
+      lastName: 'lastName',
+      email: 'test@email.com',
+      phone: '666554433'
+    });
+    expect(IContactsDomainServicesMock.create).toHaveBeenCalledTimes(1);
+  });
 });

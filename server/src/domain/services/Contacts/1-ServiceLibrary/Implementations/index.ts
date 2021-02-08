@@ -25,6 +25,7 @@ export class ContactsServiceLibrary implements IContactsServiceLibrary {
   }
 
   create(request: CreateContactRequest): Promise<Contact> {
+    if (!request) throw new CustomError(422, 'Request param is required');
     return this.iContactsDomainServices.create(request);
   }
 
