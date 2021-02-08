@@ -6,6 +6,7 @@ import CustomError from '../../../../../models/CustomError';
 
 let IContactsDomainServicesMock;
 let userMock;
+let allUsersMock;
 
 beforeAll(() => {
   userMock = new Contact({
@@ -15,6 +16,8 @@ beforeAll(() => {
     lastName: 'Test last name',
     phone: '666554433'
   });
+
+  allUsersMock = [userMock];
 
   afterAll(() => {
     IContactsDomainServicesMock = null;
@@ -37,17 +40,39 @@ describe('ContactServiceLibrary test', () => {
       IContactsDomainServicesMock
     );
     const result = await contactServiceLibrary.get('4');
-    console.log(result.id);
     expect(IContactsDomainServicesMock.get).toBeCalledTimes(1);
     expect(result.id).toEqual('4');
   });
 
-  it('Should throw an error if call get method withoud userID', async () => {
+  it('Should throw an error if call get method without an userID', async () => {
     const contactServiceLibrary = new ContactsServiceLibrary(
       IContactsDomainServicesMock
     );
     try {
       await contactServiceLibrary.get(null);
+    } catch (error) {
+      expect(error).toBeInstanceOf(CustomError);
+      expect(error.statusCode).toEqual(422);
+      expect(error.message).toEqual('User id param is required');
+    }
+  });
+
+  it('Should to return all contacts', async () => {
+    const contactServiceLibrary = new ContactsServiceLibrary(
+      IContactsDomainServicesMock
+    );
+    const result = await contactServiceLibrary.getAll();
+
+    expect(result.length).toEqual(allUsersMock.length);
+    expect(result[0]).toEqual(allUsersMock[0]);
+  });
+
+  it('Should throw an error if call update method without an UserID', async () => {
+    const contactServiceLibrary = new ContactsServiceLibrary(
+      IContactsDomainServicesMock
+    );
+    try {
+      await contactServiceLibrary.update(null, {});
     } catch (error) {
       expect(error).toBeInstanceOf(CustomError);
       expect(error.statusCode).toEqual(422);
