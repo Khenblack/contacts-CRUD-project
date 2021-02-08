@@ -4,33 +4,48 @@ import { IContactsDomainServices } from '../../2-Domain/Contracts';
 import { ContactsServiceLibrary } from '../Implementations';
 import CustomError from '../../../../../models/CustomError';
 
-const userMock = new Contact({
-  id: '1',
-  email: 'test@email.com',
-  firstName: 'Test first name',
-  lastName: 'Test last name',
-  phone: '666554433'
-});
+let IContactsDomainServicesMock;
+let userMock;
 
-const Mock = jest.fn<IContactsDomainServices, []>(() => ({
-  get: jest.fn().mockReturnValue(Promise.resolve(userMock)),
-  getAll: jest.fn().mockReturnValue(Promise.resolve([userMock])),
-  create: jest.fn().mockReturnValue(Promise.resolve(userMock)),
-  update: jest.fn().mockReturnValue(Promise.resolve(userMock)),
-  delete: jest.fn().mockReturnValue(Promise.resolve(userMock))
-}));
-const mock = new Mock();
+beforeAll(() => {
+  userMock = new Contact({
+    id: '1',
+    email: 'test@email.com',
+    firstName: 'Test first name',
+    lastName: 'Test last name',
+    phone: '666554433'
+  });
+
+  afterAll(() => {
+    IContactsDomainServicesMock = null;
+    userMock = null;
+  });
+
+  const Mock = jest.fn<IContactsDomainServices, []>(() => ({
+    get: jest.fn((id: string) => Promise.resolve({ ...userMock, id })),
+    getAll: jest.fn().mockReturnValue(Promise.resolve([userMock])),
+    create: jest.fn().mockReturnValue(Promise.resolve(userMock)),
+    update: jest.fn().mockReturnValue(Promise.resolve(userMock)),
+    delete: jest.fn().mockReturnValue(Promise.resolve(userMock))
+  }));
+  IContactsDomainServicesMock = new Mock();
+});
 
 describe('ContactServiceLibrary test', () => {
   it('Should call get method from domain services', async () => {
-    const contactServiceLibrary = new ContactsServiceLibrary(mock);
-    const result = await contactServiceLibrary.get('1');
-    expect(mock.get).toBeCalledTimes(1);
-    expect(result).toEqual(userMock);
+    const contactServiceLibrary = new ContactsServiceLibrary(
+      IContactsDomainServicesMock
+    );
+    const result = await contactServiceLibrary.get('4');
+    console.log(result.id);
+    expect(IContactsDomainServicesMock.get).toBeCalledTimes(1);
+    expect(result.id).toEqual('4');
   });
 
   it('Should throw an error if call get method withoud userID', async () => {
-    const contactServiceLibrary = new ContactsServiceLibrary(mock);
+    const contactServiceLibrary = new ContactsServiceLibrary(
+      IContactsDomainServicesMock
+    );
     try {
       await contactServiceLibrary.get(null);
     } catch (error) {
