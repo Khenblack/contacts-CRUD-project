@@ -50,6 +50,12 @@ export class ContactsDomainServices implements IContactsDomainServices {
     userId: string,
     request: UpdateContactRequest
   ): Promise<Contact> {
+    if (!request)
+      throw new CustomError(
+        404,
+        'Params firstName, lastName, email and phone could not be null'
+      );
+
     const { firstName, lastName, email, phone } = request;
     if (!firstName || !lastName || !email || !phone)
       throw new CustomError(
